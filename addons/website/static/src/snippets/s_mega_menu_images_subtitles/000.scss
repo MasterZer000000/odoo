@@ -1,0 +1,20 @@
+
+.s_mega_menu_images_subtitles:not([data-vcss]) {
+    .media img {
+        max-width: 64px;
+    }
+
+    .nav-link {
+        @include hover-focus {
+            background: rgba(0, 0, 0, .05);
+        }
+    }
+
+    @include media-breakpoint-only(sm) {
+        .row > div.col-sm-6 {
+            flex-basis: 0;
+            flex-grow: 1;
+            max-width: 100%;
+        }
+    }
+}

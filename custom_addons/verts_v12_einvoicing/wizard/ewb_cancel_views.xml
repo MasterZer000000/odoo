@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="wizard_eway_bill_cancel_view" model="ir.ui.view">
+        <field name="name">ewb.cancel.wiz</field>
+        <field name="model">ewb.cancel.wiz</field>
+        <field name="arch" type="xml">
+            <form string="EwayBill Cancellation">
+                <sheet>
+                    <group>
+                        <field name="ewb_cancel_remark"/>
+                        <field name="ewb_cancellation_reason"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="cancel_ewb" string="Cancel EwayBill" type="object" class="btn-dark"/>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+<!--    <act_window name="EwayBill Cancellation"-->
+<!--            res_model="ewb.cancel.wiz"-->
+<!--            key2="client_action_multi"-->
+<!--            multi="True"-->
+<!--            view_mode="form"-->
+<!--            view_type="form"-->
+<!--            target="new"-->
+<!--            src_model="account.move"-->
+<!--            id="wizard_eway_bill_cancel_action"/>-->
+
+
+    <record id="wizard_einv_irn_cancel_view" model="ir.ui.view">
+        <field name="name">einv.irn.cancel.wiz</field>
+        <field name="model">einv.irn.cancel.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Einv IRN Cancellation">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="einv_cancel_remark" invisible="1"/>
+                            <field name="einv_cancellation_reason" invisible="1"/>
+                        </group>
+                        <group>
+                             <field name="cancel_remark"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="cancel_irn" string="Cancel IRN" type="object" class="btn-dark"/>
+                    <button string="Cancel" class="btn-primary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+<record id="wizard_einv_irn_cancel_action" model="ir.actions.act_window">
+            <field name="name">einv.irn.cancel.wiz</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">einv.irn.cancel.wiz</field>
+<!--            <field name="view_type">tree</field>-->
+            <field name="view_id" ref="wizard_einv_irn_cancel_view" />
+            <field name="view_mode">form</field>
+    <field name="target">new</field>
+        </record>
+
+    <record id="wizard_eway_bill_cancel_action" model="ir.actions.act_window">
+            <field name="name">ewb.cancel.wiz</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ewb.cancel.wiz</field>
+<!--            <field name="view_type">tree</field>-->
+            <field name="view_id" ref="wizard_eway_bill_cancel_view" />
+            <field name="view_mode">form</field>
+        <field name="target">new</field>
+        </record>
+<!--    <act_window name="E-Invoice IRN Cancellation"-->
+<!--            res_model="einv.irn.cancel.wiz"-->
+<!--            key2="client_action_multi"-->
+<!--            multi="True"-->
+<!--            view_mode="form"-->
+<!--            view_type="form"-->
+<!--            target="new"-->
+<!--            src_model="account.move"-->
+<!--            id="wizard_einv_irn_cancel_action"/>-->
+</odoo>

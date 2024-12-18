@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="view_einvoice_api_tree" model="ir.ui.view">
+            <field name="name">account.einvoice.tree</field>
+            <field name="model">account.move</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <tree string="EInvoice Status" create="false" delete="false">
+                    <field name="number"/>
+                    <field name="partner_id"/>
+                    <field name="date_invoice"/>
+                    <field name="einvoice_irn"/>
+                    <field name="einvoice_message"/>
+                    <field name="einv_ack"/>
+                    <field name="einv_date"/>
+                    <field name="einv_base64_qrcode"/>
+                    <field name="einvoice_api" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_failed_einvoice_api_tree" model="ir.ui.view">
+            <field name="name">account.einvoice.tree</field>
+            <field name="model">account.move</field>
+            <field name="priority">11</field>
+            <field name="arch" type="xml">
+                <tree string="Failed EInvoice Status" create="false" delete="false">
+                    <field name="number"/>
+                    <field name="partner_id"/>
+                    <field name="date_invoice"/>
+                    <field name="amount_total"/>
+                    <field name="einvoice_message"/>
+                    <field name="einvoice_api" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_einvoice_api_form" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <form string="Invoices" create="false" delete="false">
+                    <header>
+                        <button name="cancel_irn" type="object"  string="Cancel IRN" class="oe_highlight"
+                            confirm="Are you sure to cancel this E-invoice IRN?"
+                             />
+                        <field name="state" widget="statusbar" nolabel="1" />
+                    </header>
+                    <sheet>
+                        <group colspan="4" col="4">
+	                        <field name="number" readonly="1"/>
+		                    <field name="partner_id" readonly="1"/>
+		                    <field name="date_invoice" readonly="1"/>
+		                    <field name="einvoice_irn" readonly="1"/>
+		                    <field name="einvoice_message" readonly="1"/>
+		                    <field name="einv_base64_qrcode" filename="einv_qrcode_name" readonly="1"/>
+		                    <field name="einv_ack" readonly="1"/>
+		                    <field name="einv_date" readonly="1"/>
+		                    <field name="einv_cancellation_reason" attrs="{'readonly':[('einv_cancelled', '=', True)]}"/>
+		                    <field name="einv_cancel_remark" attrs="{'readonly':[('einv_cancelled', '=', True)]}"/>
+		                    <field name="einv_cancelled" readonly="1"/>
+		                    <field name="einv_cancel_date" readonly="1" attrs="{'invisible':[('einv_cancelled', '=', False)]}"/>
+	                        <field name="is_einvoice" invisible="1"/>
+		                    <field name="einvoice_api" invisible="1"/>
+		                    <field name="einv_qrcode_name" invisible="1"/>
+		                    <field name="state" invisible="1"/>
+	                    </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- Inherit UoM view -->
+        <record id="view_einvoice_uom_inherit_form" model="ir.ui.view">
+            <field name="name">uom.uom.inherit.form</field>
+            <field name="model">uom.uom</field>
+            <field name="inherit_id" ref="uom.product_uom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='uom_type']" position="after">
+                    <field name="gst_uom_code" required="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit Invoice view to Generate JSON -->
+<!--        <record id="verts_v12_finance_india.inherit_financeindia_invoice_form_cancel" model="ir.ui.view">-->
+<!--        	<field name="active">0</field>-->
+<!--        </record>-->
+
+<!--        <record id="inherit_einvoice_invoice_form_cancel" model="ir.ui.view">-->
+<!--            <field name="name">account.move.form.inherit</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="inherit_id" ref="account_cancel.invoice_form_cancel_inherit"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                &lt;!&ndash; <xpath expr="//button[@name='action_invoice_cancel']" position="attributes">-->
+<!--                	<attribute name='attrs'>{'invisible': ['|',('is_einvoice', '=', True),('state','not in', ('draft','proforma2','open','sent_for_approval','pending_approval'))]}</attribute>-->
+<!--                </xpath> &ndash;&gt;-->
+<!--                <xpath expr="//button[@name='action_invoice_cancel']" position="replace">-->
+<!--                    <field name="is_einvoice" invisible="1"/>-->
+<!--                	<button name="action_invoice_cancel" type="object" attrs="{'invisible': ['|',('is_einvoice', '=', True),('state','not in', ('draft','proforma2','open','sent_for_approval','pending_approval'))]}" string="Cancel" groups="account.group_account_invoice"/>-->
+<!--                </xpath>-->
+<!--             </field>-->
+<!--        </record>-->
+
+    <record id="wizard_eway_bill_view" model="ir.ui.view">
+        <field name="name">eway.bill.wiz</field>
+        <field name="model">eway.bill.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Choose your date">
+                <group>
+		               <field name="einvoice_api" options="{'no_create': True}"/>
+	               </group>
+<!--	               <group string="Einvoice">-->
+<!--                    -->
+<!--&lt;!&ndash;                    <button name="get_einv_bydoc" string="Einvoice by Doc No." type="object" class="btn-primary"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button name="get_einv_byirn" string="E-invoice by IRN" style="width: 117px !important;" type="object" class="btn-primary"/>&ndash;&gt;-->
+<!--                   </group>-->
+<!--                   <group string="EWaybill">-->
+<!--                    <button name="create_ewaybill" string="Create Ewaybill by IRN" style="width: 150px !important;" type="object" class="btn-primary"/>-->
+<!--                    <button name="create_ewaybill_main" string="Generate Ewaybill" style="width: 138px !important;" type="object" class="btn-primary"/>-->
+<!--	               </group>-->
+                <footer>
+<!--                    <button name="button_eway_bill_gen" string="EwayBill JSON" type="object" class="btn-primary"/>-->
+                    <button name="upload_einvoice" string="Generate E-Invoice" type="object" class="btn-primary"/>
+                    <button name="button_einvoice_gen" string="E-Invoice JSON" invisible="1" type="object" class="btn-dark"/>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="wizard_eway_bill_action" model="ir.actions.act_window">
+            <field name="name">eway.bill.wiz</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">eway.bill.wiz</field>
+<!--            <field name="view_type">tree</field>-->
+            <field name="view_id" ref="wizard_eway_bill_view" />
+            <field name="view_mode">form</field>
+        <field name="target">new</field>
+        </record>
+
+
+         <record id="inherit_einvoice_json_form_view" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <!-- <button type="object" name="generate_einvoice_json" states="open,paid" string="Generate E-Invoice JSON" class="oe_highlight" /> -->
+
+                        <button name="%(wizard_eway_bill_action)d"  string="E-Invoicing" type="action"
+									 class="oe_highlight" />
+                         <button name="%(verts_v12_einvoicing.wizard_einv_irn_cancel_action)d" type="action"  string="Cancel E-Invoice" class="btn-dark"
+                            confirm="Are you sure to cancel this E-invoice IRN?"
+                                />
+<!--                           <button name="%(verts_v12_einvoicing.wizard_eway_bill_cancel_action)d" type="action" string="Cancel EWaybill" class="btn-dark"-->
+<!--                            confirm="Are you sure to cancel this EWaybill?"-->
+<!--                                />-->
+
+<!--                        <button name="create_gst_sale_main" type="object" string="GST Sale" attrs="{'invisible':[('state', '=', 'draft')]}" class="btn-success"/>-->
+                </xpath>
+                <xpath expr="//notebook/page[@name='other_info']" position="after">
+
+                    <page name="einvoice" string="E-Invoicing">
+                        <group string="E-Invoice Details" colspan="4" col="4">
+<!--                            <field name="einv_ack" string="Ack. No." readonly="1"/>-->
+<!--		                    <field name="einv_date" string="Ack. Date" readonly="1"/>-->
+<!--		                    <field name="einvoice_irn" readonly="1"/>-->
+<!--		                    <field name="einv_base64_qrcode" widget="image" filename="einv_qrcode_name" readonly="1"/>-->
+<!--		                    <field name="einvoice_message" attrs="{'invisible':[('einvoice_message','=',False)]}" readonly="1"/>-->
+<!--		                    <field name="einv_qrcode_name" invisible="1"/>-->
+<!--		                    <field name="einv_signed_qrcode" invisible="1"/>-->
+<!--		                    <field name="einvoice_api" invisible="1"/>-->
+<!--		                    <field name="is_einvoice" invisible="1"/>-->
+<!--		                    <field name="reason_not_accepted" invisible="1"/>-->
+<!--		                    <field name="cancel_remark" invisible="1"/>-->
+		                    <field name="submission_uid" invisible="0"/>
+		                    <field name="uuid" invisible="0"/>
+                        </group>
+                        <group string="E-Invoice Cancellation" colspan="4" col="4">
+                            <field name="einv_cancellation_reason" attrs="{'readonly':[('einv_cancelled', '=', True)]}"/>
+                            <field name="einv_cancel_remark" attrs="{'readonly':[('einv_cancelled', '=', True)]}"/>
+                            <field name="einv_cancelled" readonly="1"/>
+                            <field name="einv_cancel_date" readonly="1" attrs="{'invisible':[('einv_cancelled', '=', False)]}"/>
+                        </group>
+<!--                        <group string="EWaybill" colspan="4" col="4">-->
+<!--		                    <field name="einv_eway_bill" string="EWB No." readonly="1"/>-->
+<!--		                    <field name="ewb_date" string="EWB Dt" readonly="1"/>-->
+<!--		                    <field name="ewb_valid" string="EWB Valid Till" readonly="1"/>-->
+<!--                            <field name="ewb_message" attrs="{'invisible':[('ewb_message','=',False)]}" readonly="1"/>-->
+<!--		                </group>-->
+<!--                        <group string="EWaybill Cancellation" colspan="4" col="4">-->
+<!--                            <field name="ewb_cancellation_reason" attrs="{'readonly':[('ewb_cancelled', '=', True)]}"/>-->
+<!--                            <field name="ewb_cancel_remark" attrs="{'readonly':[('ewb_cancelled', '=', True)]}"/>-->
+<!--                            <field name="ewb_cancelled" readonly="1"/>-->
+<!--                            <field name="einv_cancel_remark_bool" invisible="1"/>-->
+<!--                            <field name="ewb_cancel_reason_bool" invisible="1"/>-->
+<!--                            <field name="ewb_cancel_date" readonly="1" attrs="{'invisible':[('ewb_cancelled', '=', False)]}"/>-->
+<!--                        </group>-->
+                    </page>
+<!--                    <page name="gst_api_status" string="GST API Status" groups="base.group_no_one">-->
+<!--                        <group string="GST API Status" colspan="4" col="4">-->
+<!--                            <field name="gst_sale_status" readonly="1"/>-->
+<!--                            <field name="api_remark" readonly="1"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Transportation Details">-->
+<!--						<field name="transporeter_line">-->
+<!--							<tree editable="bottom">-->
+<!--								<field name="transport_mode" required="1"/>-->
+<!--								<field name="transport_name" required="1"/>-->
+<!--								<field name="transportation_distance" required="1"/>-->
+<!--								<field name="bl_lr_rr_airway_bill_no"/>-->
+<!--								<field name="bill_date"/>-->
+<!--								<field name="vehicle_no" attrs="{'required': [('transport_mode','=', 'road')]}"/>-->
+<!--                                <field name="vehicle_type" attrs="{'required': [('transport_mode','=', 'road')]}"/>-->
+<!--                                <field name="supply_type"/>-->
+<!--                                <field name="sub_supply_type"/>-->
+<!--								<field name="driver_name"/>-->
+<!--								<field name="driver_no"/>-->
+<!--								<field name="trans_type"/>-->
+<!--								<field name="remarks"/>-->
+<!--								<field name="is_print"/>-->
+<!--							</tree>-->
+<!--						</field>-->
+<!--					</page>-->
+                </xpath>
+            </field>
+        </record>
+
+<!--        <record id="inherit_gst_purchase_form_view" model="ir.ui.view">-->
+<!--            <field name="name">account.move.form.inherit</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="inherit_id" ref="account.view_move_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--&lt;!&ndash;                <xpath expr="//header" position="inside">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button name="create_gst_purchase_main" type="object" string="GST Purchase" attrs="{'invisible':[('state', '=', 'draft')]}" class="oe_highlight"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
+<!--&lt;!&ndash;                <xpath expr="//notebook" position="inside">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <page name="gst_api_status" string="GST API Status" groups="base.group_no_one">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <group string="GST API Status" colspan="4" col="4">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="gst_purchase_status" readonly="1"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="api_remark" readonly="1"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </group>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </page>&ndash;&gt;-->
+<!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--    <act_window name="E-Invoicing"-->
+<!--            res_model="eway.bill.wiz"-->
+<!--            key2="client_action_multi"-->
+<!--            multi="True"-->
+<!--            view_mode="form"-->
+<!--            view_type="form"-->
+<!--            target="new"-->
+<!--            src_model="account.move"-->
+<!--            id="wizard_eway_bill_action"/>-->
+
+
+
+<!--      <record id="wizard_einvoice_view_inherit" model="ir.ui.view">-->
+<!--	        <field name="name">eway.bill.wiz</field>-->
+<!--	        <field name="model">eway.bill.wiz</field>-->
+<!--	        <field name="inherit_id" ref="verts_v12_gst_india.wizard_eway_bill_view"/>-->
+<!--	        <field name="arch" type="xml">-->
+<!--	            <xpath expr="//form" position="inside">-->
+<!--	               -->
+<!--	            </xpath>-->
+<!--	            <xpath expr="//button[@name='button_eway_bill_gen']" position="after">-->
+<!--                    -->
+<!--                </xpath>-->
+<!--	        </field>-->
+<!--        </record> -->
+
+        <!-- Res Counrty Form View Inherit  -->
+<!--        <record id="view_country_form_iherit_code" model="ir.ui.view">-->
+<!--        <field name="name">res.country.form</field>-->
+<!--        <field name="model">res.country</field>-->
+<!--        <field name="inherit_id" ref="base.view_country_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='code']" position="after">-->
+<!--                <field name="gst_code"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="action_genrate_eway_invoice" model="ir.actions.server">
+            <field name="name">E-Invoice</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.action_e_invoice_wizard_open()
+            </field>
+        </record>
+</odoo>

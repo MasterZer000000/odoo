@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gstrobo_apiconfig_user,gstrobo_apiconfig.user,model_gstrobo_apiconfig,account.group_account_user,1,0,0,0
+access_gstrobo_apiconfig_manager,gstrobo_apiconfig.manager,model_gstrobo_apiconfig,account.group_account_manager,1,1,1,1
+access_gst_sale_purchase,access.gst.sale.purchase,model_gst_sale_purchase,account.group_account_user,1,0,0,0
+access_gst_sale_purchase_config,access.gst.sale.purchase.config,model_gst_sale_purchase,account.group_account_manager,1,1,1,1
+access_ewb_cancel_wiz,access_ewb_cancel_wiz,model_ewb_cancel_wiz,account.group_account_user,1,1,1,1
+access_eway_bill_wiz,access_eway_bill_wiz,model_eway_bill_wiz,account.group_account_user,1,1,1,1
+access_einv_irn_cancel_wiz,access_einv_irn_cancel_wiz,model_einv_irn_cancel_wiz,account.group_account_user,1,1,1,1
+access_transporeter_lines,access_transporeter_lines,model_transporeter_lines,account.group_account_user,1,1,1,1
+access_api_message_wizard,access_api_message_wizard,model_api_message_wizard,base.group_user,1,1,1,1

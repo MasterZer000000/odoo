@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+             <!-- Tree Views for sale_gst_purchase -->
+    <record id='gst_sale_purchase_tree_view' model='ir.ui.view'>
+        <field name="name">gst.sale.purchase.tree.view</field>
+        <field name="model">gst.sale.purchase</field>
+        <field name="arch" type="xml">
+            <tree string="GST Sale Purchase API Conf">
+                <field name="name" />
+                <field name="client_id" />
+                <field name="client_secret"/>
+                <field name="whitelisted_ip"/>
+            </tree>
+        </field>
+    </record>
+             <!-- Form Views for sale_gst_purchase -->
+     <record id='gst_sale_purchase_form_view' model='ir.ui.view'>
+        <field name="name">gst.sale.purchase.view</field>
+        <field name="model">gst.sale.purchase</field>
+        <field name="arch" type="xml">
+            <form string="GST Sale Purchase API Conf">
+                <header>
+                    <button name="authenticate" type="object" states="draft,expired" string="Authenticate" class="oe_highlight"/>
+                    <button name="set_to_draft" type="object" states="expired" string="Set to draft"/>
+                    <field name="state" widget="statusbar" nolabel="1" />
+                </header>
+                <sheet>
+                    <group colspan="4" col="4">
+                        <field name="name" required="1"/>
+                        <field name="gstrobo_user" />
+                        <field name="auth_url" />
+                        <field name="invoice_url"/>
+                        <field name="client_id" />
+                        <field name="client_secret"/>
+                        <field name="whitelisted_ip"/>
+                        <field name="token_expiry"/>
+                        <field name="auth_token"/>
+                        <field name="notes"/>
+                        <field name="company_id"  groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+     </record>
+                    <!--actions of the sale gst purchase menu-->
+    <record id="gst_sale_purchase_action" model="ir.actions.act_window">
+        <field name="name">GST Sale Purchase API Conf</field>
+        <field name="res_model">gst.sale.purchase</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create Your First GST Sale Purchase API Conf</p>
+        </field>
+    </record>
+
+    <menuitem id="gst_sale_purchase_menu" name="GST Sale Purchase API Conf"  parent="menu_einvoicing_parent" action="gst_sale_purchase_action" sequence="2" groups="account.group_account_user"/>
+</odoo>

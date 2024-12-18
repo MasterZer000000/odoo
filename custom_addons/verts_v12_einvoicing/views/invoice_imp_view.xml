@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inv_import_form_id" model="ir.ui.view">
+            <field name="name">invoice.imp.form</field>
+            <field name="model">invoice.imp</field>
+            <!--<field name="type">form</field>-->
+            <field name="arch" type="xml">
+                <form string="Invoice Import">
+                <sheet>
+					<group colspan="4">
+						<group>
+							<field name="import_invoice_file"/>
+						</group>
+					</group>
+                 </sheet>
+                  <footer>
+                    <h4>
+                        <button name="import_invoice_details" string="Import" type="object" class="btn btn-dark" icon="fa-play-circle" style="width: 75px; height: 30px;"> </button>
+                        or
+                        <button string="Cancel" class="btn btn-warning" special="cancel" icon="fa-times-circle" style="width: 75px; height: 30px;"/>
+                        </h4>
+                </footer>
+				</form>
+			</field>
+		</record>
+		
+        <record id="inv_import_action_id" model="ir.actions.act_window">
+	        <field name="name">Invoice Import</field>
+<!--	        <field name="type">ir.actions.act_window</field>-->
+	        <field name="res_model">invoice.imp</field>
+<!--	        <field name="view_type">form</field>-->
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="inv_import_form_id"/>
+	        <field name="target">new</field>
+	    </record>
+
+		
+		<menuitem id="menu_inv_import_action"
+                  name="Invoice Import"
+                  parent="menu_einvoicing_parent"
+                  action="inv_import_action_id"
+        		groups="account.group_account_manager"
+		/>
+                  
+       <record id="api_message_wizard_form" model="ir.ui.view">
+		    <field name="name">api.message.wizard.form</field>
+		    <field name="model">api.message.wizard</field>
+		    <field name="arch" type="xml">
+		        <form string="Message">
+		            <p class="text-center">
+		                <field name="message" readonly="1"/>
+		            </p>
+		        <footer>
+		            <button name="action_ok" string="Ok" type="object" default_focus="1" class="oe_highlight"/> 
+		        </footer>
+		        </form>
+		    </field>
+		</record>           
+	</data>
+</odoo>
+
